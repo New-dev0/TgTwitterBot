@@ -1,0 +1,49 @@
+{
+    "name": "TgTwitterBot",
+    "description": "Twitter-Control from Telegram.",
+    "repository": "https://github.com/New-dev0/TgTwitterBot",
+    "logo": "https://telegra.ph/file/845054582c76963620311.jpg",
+    "keywords": ["telegram", "twitter", "tweepy", "telegram bot", "twiiter bot"],
+    "env": {
+        "BOT_TOKEN": {
+            "description": "BOT TOKEN of your Bot. Get it from @BotFather.",
+            "value": ""
+        },
+        "API_ID": {
+            "description": "Get it from https://my.telegram.org/apps ",
+            "value": ""
+        },
+        "API_HASH": {
+            "description": "Get it from https://my.telegram.org/apps",
+            "value": ""
+        },
+        "AUTHUSERS": {
+            "description": "User ids of user who can use your Bot Seperated by Space/Gap.",
+            "value": ""
+        },
+        "HNDLR": {
+            "description": "Command Handler to use. Default to '/'",
+            "value": "",
+            "required": false
+        },
+        "CONSUMER_KEY": {
+            "description": "Read New-dev0.github.io/tgtwitterbot to Know About it.",
+            "value": ""
+        },
+        "CONSUMER_SECRET": {
+            "description": "Read New-dev0.github.io/tgtwitterbot to Know About it.",
+            "value": ""
+        },
+        "ACCESS_TOKEN": {
+            "description": "Read New-dev0.github.io/tgtwitterbot to Know About it.",
+            "value": ""
+        },
+        "ACCESS_TOKEN_SECRET": {
+            "description": "Read New-dev0.github.io/tgtwitterbot to Know About it.",
+            "value": ""
+        }
+    },
+    "buildpacks": [{
+        "url": "heroku/python"
+    }]
+}
