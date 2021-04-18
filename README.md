@@ -12,7 +12,7 @@
 - Post Tweets from Telegram.
 
 
-All Details and ```Guide for Deployment``` can be Found at [New-dev0.github.io/TgTwitterBot](https://New-dev0.Github.io/TgTwitterBot) !
+All Details and ```Guide for Deployment``` can be Found at [New-dev0.github.io/tgtwitterbot](https://New-dev0.Github.io/tgtwitterbot) !
 <br>
 All Enviroment Variables can be found in [`env.sample`](https://github.com/New-dev0/TgTwitterBot/blob/main/env.sample) !
 
