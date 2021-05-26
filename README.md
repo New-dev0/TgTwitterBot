@@ -23,7 +23,7 @@ All Enviroment Variables can be found in [`env.sample`](https://github.com/New-d
 
 ## Deploying Locally
 Fill Your Env Variables in .env file !
-```python
+```shell
 git clone https://github.com/New-dev0/TgTwitterBot.git
 cd TgTwitterBot
 pip install -r requirements.txt
