@@ -42,7 +42,7 @@ async def startmsg(client, message):
 
 
 @Client.on_inline_query(~filters.user(AUTH))
-async def dndshow(client, query):
+async def _adndshow(client, query):
     out = [InlineQueryResultArticle(
         title="You are Not Authorised to Use Me !",
         description="User Restricted Bot",
