@@ -24,7 +24,7 @@ Twitter from Telegram Only !
 Send {HLR}help to explore !
 """
 
-async def limit_check(client, query):
+def limit_check(client, query):
     if len(query.query)==0:
         return True
     return False
