@@ -4,6 +4,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+
 from pyrogram import Client, filters
 from twitterbot import AUTH, HELP_MARKUP, TLOGO, HNDLR
 from pyrogram.types import (
@@ -48,7 +49,19 @@ def limit_check(client, query):
 
 @Client.on_inline_query(~filters.user(AUTH))
 async def dndshow(client, query):
-    await query.answer([], switch_pm_text="❌ Un-Authorised User !",
+    out = [InlineQueryResultArticle(
+        title="You are Not Authorised to Use Me !",
+        description="User Restricted Bot",
+        thumb_url=TLOGO,
+        input_message_content=InputTextMessageContent(
+            "You are Not Authorised to Use Me !"
+        ),
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton(
+                text=r"<\ Deploy Your Own />",
+                url="https://github.com/New-dev0/TgTwitterBot")]]
+        ))]
+    await query.answer(results=out, switch_pm_text="TgTwitterBot",
                        switch_pm_parameter="start")
 
 

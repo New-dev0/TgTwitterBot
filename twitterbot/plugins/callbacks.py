@@ -7,7 +7,7 @@
 from twitterbot import AUTH, api, HELP_MARKUP
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from twitterbot.funcs import simstuff
+from twitterbot.funcs import simstuff, status_reply_markup, user_reply_markup
 
 HELPBUT = [InlineKeyboardButton(text="Help Menu", callback_data="openmenu")]
 
@@ -21,87 +21,76 @@ async def forunauth(client, query):
 @Client.on_callback_query(filters.regex("^user(.*)"))
 async def callie(client, query):
     match = query.matches[0].group(1)
-    user = api.get_user(match)._json
-    mt = "Follow"
-    if user["following"]:
-        mt = "UnFollow"
-    un = user['screen_name']
-    uli = f"https://twitter.com/{un}"
-    text = simstuff(user, uli)
-    await query.edit_message_text(text, disable_web_page_preview=True)
-    reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton(text="View on Twitter", url=uli)],
-        [InlineKeyboardButton(text=mt, callback_data=f"fuflow{match}")],
-        HELPBUT])
-    await query.edit_message_reply_markup(reply_markup)
+    user = api.get_user(match)
+    text = simstuff(user._json)
+    reply_markup = InlineKeyboardMarkup(user_reply_markup(user))
+    await query.edit_message_text(text, reply_markup=reply_markup,
+                                  disable_web_page_preview=True)
 
 
 @Client.on_callback_query(filters.regex("^openmenu$"))
 async def quetme(client, query):
     await query.edit_message_text(
-        "[**Telegram - Twitter - Bot**]" + 
-        "(https://github.com/New-dev0/TgTwitterBot)")
-    await query.edit_message_reply_markup(HELP_MARKUP)
+        "**[Telegram - Twitter - Bot]" +
+        "(https://github.com/New-dev0/TgTwitterBot)**",
+        reply_markup=HELP_MARKUP,
+        disable_web_page_preview=True)
 
 
-@Client.on_callback_query(filters.regex("^favr(.*)"))
+@Client.on_callback_query(filters.regex("^favr_(.*)"))
 async def favunfav(client, query):
-    t_id = query.matches[0].group(1)
-    tweet = api.get_status(t_id)._json
-    user = tweet["user"]
-    stf = tweet["favorited"]
-    count = tweet["favorite_count"]
-    btext = "UnLike ♡"
-    if stf:
+    match = query.matches[0].group(1).split("_")
+    todo = match[0]
+    t_id = int(match[1])
+    if todo == "lk":
         text = "Unliked !"
-        api.destroy_favorite(t_id)
-        count = count - 1
-        btext = "Like ❤️"
+        stat = api.destroy_favorite(t_id)
     else:
         text = "Liked !"
-        api.create_favorite(t_id)
-        count = count + 1
-    text += f"\nTotal Counts - {count}"
-    lpo = f"https://twitter.com/{user['screen_name']}/status/{t_id}"
+        stat = api.create_favorite(t_id)
     await query.answer(text, show_alert=True)
-    reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton(text="View", url=lpo),
-         InlineKeyboardButton(text="User", callback_data=f"user{user['id']}")],
-        [InlineKeyboardButton(text=btext, callback_data=f"favr{t_id}")]])
+    reply_markup = InlineKeyboardMarkup(status_reply_markup(stat))
     await query.edit_message_reply_markup(reply_markup)
 
 
-@Client.on_callback_query(filters.regex("^fuflow(.*)"))
+@Client.on_callback_query(filters.regex("^fuflow_(.*)"))
 async def folowunf(client, query):
-    t_id = query.matches[0].group(1)
-    user = api.get_user(t_id)._json
-    stf = user["following"]
-    count = user["followers_count"]
-    uname = user['screen_name']
-    if stf:
-        text = f"Unfollowed @{uname}!"
-        fum = "Follow"
-        api.destroy_friendship(t_id)
+    todo, t_id = query.matches[0].group(1).split("_")
+    if todo == "fl":
+        text = "Unfollowed !"
+        user = api.destroy_friendship(t_id)
     else:
-        text = f"Starting Following @{uname} !"
-        api.create_friendship(t_id)
-        fum = "UnFollow"
-    text += f"\nTotal Followings - {count}"
-    lpo = f"https://twitter.com/{uname}"
+        text = "Starting Following!"
+        user = api.create_friendship(t_id)
+    text += f"\nTotal Followings - {user._json['favorite_count']}"
     await query.answer(text, show_alert=True)
-    reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton(text="View", url=lpo),
-         InlineKeyboardButton(text=fum, callback_data=f"fuflow{t_id}")],
-        HELPBUT])
+    reply_markup = InlineKeyboardMarkup(user_reply_markup(user))
     await query.edit_message_reply_markup(reply_markup)
+
+
+@Client.on_callback_query(filters.regex("^rtt_(.*)"))
+async def retweet(_, query):
+    match = query.matches[0].group(1).split("_")
+    to_do = match[0]
+    status_id = match[1]
+    if to_do == "rt":
+        api.retweet(status_id)
+        mk = "ReTweeted !"
+    else:
+        api.unretweet(status_id)
+        mk = "Deleted ReTweet !"
+    status = api.get_status(status_id)
+    await query.answer(mk, show_alert=True)
+    reply_markup = status_reply_markup(status)
+    await query.edit_message_reply_markup(InlineKeyboardMarkup(reply_markup))
 
 
 @Client.on_callback_query(filters.regex("^del(.*)"))
 async def delstatus(client, query):
     status = query.matches[0].group(1)
     api.destroy_status(status)
-    await query.edit_message_text("**Deleted !**")
-    await query.edit_message_reply_markup(None)
+    await query.edit_message_text("**Deleted !**",
+                                  reply_markup=None)
 
 
 @Client.on_callback_query(filters.regex("^block(.*)"))
