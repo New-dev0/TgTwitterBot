@@ -24,6 +24,11 @@ Twitter from Telegram Only !
 Send {HLR}help to explore !
 """
 
+async def limit_check(client, query):
+    if len(query.query)==0:
+        return True
+    return False
+
 
 @Client.on_message(filters.command("start", prefixes=HNDLR)
                    & filters.user(AUTH))
@@ -58,11 +63,9 @@ async def _adndshow(client, query):
     await query.answer(results=out, switch_pm_text="TgTwitterBot",
                        switch_pm_parameter="start")
 
-"""
-@Client.on_inline_query(filters.user(AUTH))
+
+@Client.on_inline_query(filters.user(AUTH) & limit_check)
 async def myinline(client, query):
-    if not len(query.query) == 0:
-        return
     out = [InlineQueryResultArticle(
         title="TwitterBot",
         description="Help Menu",
@@ -72,7 +75,7 @@ async def myinline(client, query):
         reply_markup=HELP_MARKUP)]
     await query.answer(out,
                        switch_pm_text="HELP Portal",
-                       switch_pm_parameter="start")"""
+                       switch_pm_parameter="start")
 
 
 HEMENU = f"""
