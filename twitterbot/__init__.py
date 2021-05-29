@@ -9,7 +9,7 @@ from Configs import Var
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton as Button
 
 
-AUTH = list(set(int(a) for a in Var.AUTHUSERS.split(" ")))
+AUTH = list(set(int(a) for a in Var.AUTHUSERS.split()))
 HNDLR = Var.HNDLR
 
 auth = tweepy.OAuthHandler(Var.CONSUMER_KEY, Var.CONSUMER_SECRET)
