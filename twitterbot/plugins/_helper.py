@@ -41,12 +41,6 @@ async def startmsg(client, message):
         quote=True)
 
 
-def limit_check(client, query):
-    if len(query.query) == 0:
-        return True
-    return False
-
-
 @Client.on_inline_query(~filters.user(AUTH))
 async def dndshow(client, query):
     out = [InlineQueryResultArticle(
@@ -65,8 +59,10 @@ async def dndshow(client, query):
                        switch_pm_parameter="start")
 
 
-@Client.on_inline_query(filters.user(AUTH) & limit_check)
+@Client.on_inline_query(filters.user(AUTH))
 async def myinline(client, query):
+    if not len(query.query) == 0:
+        return
     out = [InlineQueryResultArticle(
         title="TwitterBot",
         description="Help Menu",
