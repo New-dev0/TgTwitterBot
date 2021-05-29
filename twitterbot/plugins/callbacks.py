@@ -91,23 +91,3 @@ async def delstatus(client, query):
     api.destroy_status(status)
     await query.edit_message_text("**Deleted !**",
                                   reply_markup=None)
-
-
-@Client.on_callback_query(filters.regex("^block(.*)"))
-async def blockuser(client, query):
-    u_id = query.matches[0].group(1)
-    api.create_block(u_id)
-    await query.answer("Blocked !", show_alert=True)
-    await query.edit_message_reply_markup(InlineKeyboardMarkup([
-        [InlineKeyboardButton(text="UnBlock", callback_data=f"ubk{u_id}")],
-        HELPBUT]))
-
-
-@Client.on_callback_query(filters.regex("^ubk(.*)"))
-async def unblockuser(client, query):
-    u_id = query.matches[0].group(1)
-    api.create_block(u_id)
-    await query.answer("UnBlocked !", show_alert=True)
-    await query.edit_message_reply_markup(InlineKeyboardMarkup([
-        [InlineKeyboardButton(text="Block", callback_data=f"block{u_id}")],
-        HELPBUT]))

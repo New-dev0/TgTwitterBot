@@ -46,26 +46,10 @@ async def startmsg(client, message):
         quote=True)
 
 
-@Client.on_inline_query(~filters.user(AUTH))
-async def _adndshow(client, query):
-    out = [InlineQueryResultArticle(
-        title="You are Not Authorised to Use Me !",
-        description="User Restricted Bot",
-        thumb_url=TLOGO,
-        input_message_content=InputTextMessageContent(
-            "You are Not Authorised to Use Me !"
-        ),
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton(
-                text=r"<\ Deploy Your Own />",
-                url="https://github.com/New-dev0/TgTwitterBot")]]
-        ))]
-    await query.answer(results=out, switch_pm_text="TgTwitterBot",
-                       switch_pm_parameter="start")
-
-
 @Client.on_inline_query(filters.user(AUTH) & limit_check)
 async def myinline(client, query):
+    if query.from_user.id not in AUTH:
+        return
     out = [InlineQueryResultArticle(
         title="TwitterBot",
         description="Help Menu",
