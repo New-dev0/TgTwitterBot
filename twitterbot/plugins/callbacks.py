@@ -55,14 +55,16 @@ async def favunfav(client, query):
 
 @Client.on_callback_query(filters.regex("^fuflow_(.*)"))
 async def folowunf(client, query):
-    todo, t_id = query.matches[0].group(1).split("_")
+    to_ = query.matches[0].group(1).split("_")
+    todo = to_[0]
+    t_id = int(to_[1])
     if todo == "fl":
         text = "Unfollowed !"
         user = api.destroy_friendship(t_id)
     else:
         text = "Starting Following!"
         user = api.create_friendship(t_id)
-    user = api.get_user(user['id'])
+    user = api.get_user(user._json['id'])
     text += f"\nTotal Followings - {user._json['followers_count']}"
     await query.answer(text, show_alert=True)
     reply_markup = InlineKeyboardMarkup(user_reply_markup(user))
