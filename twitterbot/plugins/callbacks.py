@@ -62,6 +62,7 @@ async def folowunf(client, query):
     else:
         text = "Starting Following!"
         user = api.create_friendship(t_id)
+    print(user._json)
     text += f"\nTotal Followings - {user._json['favorite_count']}"
     await query.answer(text, show_alert=True)
     reply_markup = InlineKeyboardMarkup(user_reply_markup(user))
