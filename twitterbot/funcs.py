@@ -98,7 +98,7 @@ def status_reply_markup(status):
 def user_reply_markup(user):
     OUT = []
     user = user._json
-    fl = "fl"
+    fl = "ufl"
     fl_but = "Follow"
     if user["following"]:
         fl = "fl"
