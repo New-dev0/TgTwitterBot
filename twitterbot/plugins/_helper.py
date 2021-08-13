@@ -6,7 +6,7 @@
 
 
 from pyrogram import Client, filters
-from twitterbot import AUTH, HELP_MARKUP, TLOGO, HNDLR
+from twitterbot import AUTH, HELP_MARKUP, TLOGO, HNDLR, REPO
 from pyrogram.types import (
     InlineQueryResultArticle,
     InputTextMessageContent,
@@ -34,8 +34,9 @@ def limit_check(client, query):
 async def _andshow(client, query):
     res = InlineQueryResultArticle(title="❌ Un-Authorised User",
         description="© New-dev0",
+        url=REPO,
         input_message_content=InputTextMessageContent("You are not Authorized To Use Me!"), 
-        reply_mark=InlineKeyboardMarkup([[InlineKeyboardButton(text="Deploy Your own",url="")]]))
+        reply_mark=InlineKeyboardMarkup([[InlineKeyboardButton(text="Deploy Your own",url=REPO)]]))
     await query.answer([res], switch_pm_text="🤖 TgTwitterBot!",
                        switch_pm_parameter="start")
 
@@ -48,7 +49,7 @@ async def startmsg(client, message):
                               url="t.me/FutureCodesChat")],
         [InlineKeyboardButton(
             text="Repo",
-            url="https://github.com/New-dev0/TgTwitterBot")]])
+            url=REPO)]])
     await message.reply_text(
         START_MSG.format(frm=message.from_user.mention,
                          HLR=HNDLR),
