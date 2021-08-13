@@ -101,7 +101,7 @@ def user_reply_markup(user):
     fl = "fl"
     fl_but = "Follow"
     if user["following"]:
-        fl = "ufl"
+        fl = "fl"
         fl_but = "UnFollow"
     Link = "https://twitter.com/" + user['screen_name']
     OUT.append([InlineKeyboardButton("View", url=Link),
