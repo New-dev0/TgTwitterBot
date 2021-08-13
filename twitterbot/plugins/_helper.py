@@ -30,6 +30,16 @@ def limit_check(client, query):
     return False
 
 
+@Client.on_inline_query(~filters.user(AUTH))
+async def _andshow(client, query):
+    res = InlineQueryResultArticle(title="❌ Un-Authorised User",
+        description="© New-dev0",
+        input_message_content=InputTextMessageContent("You are not Authorized To Use Me!"), 
+        reply_mark=InlineKeyboardMarkup([[InlineKeyboardButton(text="Deploy Your own",url="")]]))
+    await query.answer([res], switch_pm_text="🤖 TgTwitterBot!",
+                       switch_pm_parameter="start")
+
+
 @Client.on_message(filters.command("start", prefixes=HNDLR)
                    & filters.user(AUTH))
 async def startmsg(client, message):
