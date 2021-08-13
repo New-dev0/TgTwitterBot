@@ -1,4 +1,4 @@
 pyrogram
 python-decouple
 tgcrypto
-tweepy
+tweepy==3.10.0

@@ -5,10 +5,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from Configs import Var
-from pyrogram import Client
+from pyrogram import Client, idle
 
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 
 Client = Client("TgTwitterBot",
                 api_id=Var.API_ID,
@@ -19,4 +19,10 @@ Client = Client("TgTwitterBot",
                     )
                 )
 
-Client.run()
+Client.start()
+
+Client = Client.get_me()
+print(f"@{Client.username} Deployed Successfully!")
+print("Your Tg-Twitter-Bot is Alive 🎉")
+
+idle()

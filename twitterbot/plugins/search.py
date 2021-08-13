@@ -9,9 +9,12 @@ from twitterbot import AUTH, api
 from twitterbot.funcs import user_eazy, tweeteazy
 
 
-@Client.on_inline_query(filters.regex("^search (.*)") & filters.user(AUTH))
+@Client.on_inline_query(filters.regex("^search") & filters.user(AUTH))
 async def searchthing(client, query):
-    match = query.matches[0].group(1)
+    try:
+        match = query.query.split(" ", maxsplit=1)[1]
+    except IndexError:
+        return await query.answer([], switch_pm_text="Enter Query to Search", switch_pm_parameter="start")
     outex = api.search(match)
     results = tweeteazy(outex)
     await query.answer(results,
@@ -19,9 +22,12 @@ async def searchthing(client, query):
                        switch_pm_parameter="start")
 
 
-@Client.on_inline_query(filters.regex("^user (.*)") & filters.user(AUTH))
+@Client.on_inline_query(filters.regex("^user") & filters.user(AUTH))
 async def searchuser(client, query):
-    match = query.matches[0].group(1)
+    try:
+        match = query.query.split(" ", maxsplit=1)[1]
+    except IndexError:
+        return await query.answer([], switch_pm_text="Enter Query to Search", switch_pm_parameter="start")
     user = api.search_users(match)
     results = user_eazy(user)
     await query.answer(results,

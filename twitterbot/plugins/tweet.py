@@ -17,16 +17,20 @@ async def twitter(client, message):
     msg = message.reply_to_message
     MSG = "**Tweeted Successfully !!**"
     ca = "#PostFromTG"
-    if msg.text:
-        twish = api.update_status(msg.text + "\n\n" + ca)
-    elif msg.photo or msg.video:
-        if msg.caption:
-            ca = msg.caption + "\n\n" + ca
-        dl = await msg.download()
-        twish = api.update_with_media(dl, ca)
-        os.remove(dl)
-    else:
-        MSG = "Invalid Content"
+    try:
+        if msg.text:
+             twish = api.update_status(msg.text + "\n\n" + ca)
+        elif msg.photo or msg.video:
+            if msg.caption:
+                ca = msg.caption + "\n\n" + ca
+            dl = await msg.download()
+            twish = api.update_with_media(dl, ca)
+            os.remove(dl)
+        else:
+            MSG = "Invalid Content"
+            twish = None
+    except Exception as e:
+        return await message.reply_text(str(e))
     reply_markup = None
     if twish:
         twe = twish._json
@@ -34,8 +38,8 @@ async def twitter(client, message):
         user = twe["user"]
         link = f"https://twitter.com/{user['screen_name']}/status/{t_id}"
         reply_markup = InlineKeyboardMarkup([
-            [InlineKeyboardButton(text="View", url=link)],
-            [InlineKeyboardButton(text="Delete", callback_data=f"del{t_id}")]])
+            [InlineKeyboardButton(text="View", url=link),
+             InlineKeyboardButton(text="Delete", callback_data=f"del{t_id}")]])
     await message.reply_text(MSG,
                              reply_markup=reply_markup,
                              quote=True)
