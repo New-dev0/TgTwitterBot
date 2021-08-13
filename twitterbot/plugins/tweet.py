@@ -28,6 +28,7 @@ async def twitter(client, message):
             os.remove(dl)
         else:
             MSG = "Invalid Content"
+            twish = None
     except Exception as e:
         return await message.reply_text(str(e))
     reply_markup = None
@@ -37,8 +38,8 @@ async def twitter(client, message):
         user = twe["user"]
         link = f"https://twitter.com/{user['screen_name']}/status/{t_id}"
         reply_markup = InlineKeyboardMarkup([
-            [InlineKeyboardButton(text="View", url=link)],
-            [InlineKeyboardButton(text="Delete", callback_data=f"del{t_id}")]])
+            [InlineKeyboardButton(text="View", url=link),
+             InlineKeyboardButton(text="Delete", callback_data=f"del{t_id}")]])
     await message.reply_text(MSG,
                              reply_markup=reply_markup,
                              quote=True)
