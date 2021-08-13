@@ -36,7 +36,7 @@ async def _andshow(client, query):
         description="© New-dev0",
         url=REPO,
         input_message_content=InputTextMessageContent("You are not Authorized To Use Me!"), 
-        reply_mark=InlineKeyboardMarkup([[InlineKeyboardButton(text="Deploy Your own",url=REPO)]]))
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Deploy Your own",url=REPO)]]))
     await query.answer([res], switch_pm_text="🤖 TgTwitterBot!",
                        switch_pm_parameter="start")
 
