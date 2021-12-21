@@ -11,8 +11,9 @@ from twitterbot.funcs import tweeteazy
 
 @Client.on_inline_query(filters.regex("^favorites$") & filters.user(AUTH))
 async def showfav(client, query):
-    favs = api.favorites()
+    favs = api.get_favorites()
     res = tweeteazy(favs)
-    await query.answer(res[:50],
-                       switch_pm_text="Showing Favorites !",
-                       switch_pm_parameter="start")
+    await query.answer(
+        res[:50], is_personal=True,
+                switch_pm_text="Showing Favorites !", switch_pm_parameter="start"
+    )

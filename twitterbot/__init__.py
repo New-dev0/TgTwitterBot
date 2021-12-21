@@ -4,12 +4,17 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 import tweepy
 from Configs import Var
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton as Button
 
+LOGGER = logging.getLogger("TGTwitterBot")
 
-AUTH = list(int(a) for a in Var.AUTHUSERS.split(" "))
+AUTH = list(set(int(a) for a in Var.AUTHUSERS.split()))
 HNDLR = Var.HNDLR
 
 auth = tweepy.OAuthHandler(Var.CONSUMER_KEY, Var.CONSUMER_SECRET)
@@ -20,13 +25,11 @@ REPO = "https://github.com/New-dev0/TgTwitterBot"
 TLOGO = "https://telegra.ph/file/845054582c76963620311.jpg"
 
 HELP_MARKUP = InlineKeyboardMarkup(
-    [[Button(text="Home Tweets",
-             switch_inline_query_current_chat="home")],
-     [Button(text="Favorites",
-             switch_inline_query_current_chat="favorites")],
-     [Button(text="Mentions",
-             switch_inline_query_current_chat="mentions")],
-     [Button(text="Search Tweets",
-             switch_inline_query_current_chat="search quote")],
-     [Button(text="Search User",
-             switch_inline_query_current_chat="user NewDev0")]])
+    [
+        [Button(text="Home Tweets", switch_inline_query_current_chat="home")],
+        [Button(text="Favorites", switch_inline_query_current_chat="favorites")],
+        [Button(text="Mentions", switch_inline_query_current_chat="mentions")],
+        [Button(text="Search Tweets", switch_inline_query_current_chat="search quote")],
+        [Button(text="Search User", switch_inline_query_current_chat="user NewDev0")],
+    ]
+)

@@ -10,10 +10,8 @@ from twitterbot.funcs import tweeteazy
 
 
 @Client.on_inline_query(filters.regex("^home$") & filters.user(AUTH))
-async def homeline(client, query):
+async def z_homeline(_, query):
     tweets = api.home_timeline()
     res = tweeteazy(tweets)
-    await query.answer(results=res,
-                       switch_pm_text="Home",
-                       switch_pm_parameter="start")
-
+    await query.answer(results=res, is_personal=True,
+                       switch_pm_text="Home", switch_pm_parameter="start")

@@ -13,6 +13,9 @@ from twitterbot.funcs import tweeteazy
 async def showmentions(client, query):
     mentions = api.mentions_timeline()
     results = tweeteazy(mentions)
-    await query.answer(results,
-                       switch_pm_text=f"Got {len(results)} Mentions",
-                       switch_pm_parameter="start")
+    await query.answer(
+        results,
+        is_personal=True,
+        switch_pm_text=f"Got {len(results)} Mentions",
+        switch_pm_parameter="start",
+    )

@@ -8,7 +8,7 @@ from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InlineQueryResultArticle,
-    InputTextMessageContent
+    InputTextMessageContent,
 )
 
 
@@ -22,7 +22,7 @@ def mkease(counts, cstatus):
 
 
 def simstuff(user):
-    uname = user['screen_name']
+    uname = user["screen_name"]
     text = "#User #Twitterbot\n\n"
     text += "**⫸ Details\nName** -> " + user["name"]
     text += f"\n**Username** -> [@{uname}](https://twitter.com/{uname})\n\n"
@@ -40,14 +40,17 @@ def tweeteazy(bunch):
         ds = "#Tweet"
         ds += "\n\n" + ct["text"] + "\n" + cm
         reply_markup = status_reply_markup(one)
-        results.append(InlineQueryResultArticle(
-            title=ct["text"],
-            description=f"@{uname}",
-            thumb_url=ct["user"]["profile_image_url"],
-            reply_markup=InlineKeyboardMarkup(reply_markup),
-            input_message_content=InputTextMessageContent(
-                ds,
-                disable_web_page_preview=True)))
+        results.append(
+            InlineQueryResultArticle(
+                title=ct["text"],
+                description=f"@{uname}",
+                thumb_url=ct["user"]["profile_image_url"],
+                reply_markup=InlineKeyboardMarkup(reply_markup),
+                input_message_content=InputTextMessageContent(
+                    ds, disable_web_page_preview=True
+                ),
+            )
+        )
     return results[:50]
 
 
@@ -56,16 +59,20 @@ def user_eazy(bunch):
     for one in bunch:
         user = one._json
         text = simstuff(user)
-        uname = user['screen_name']
+        uname = user["screen_name"]
         reply_markup = InlineKeyboardMarkup(user_reply_markup(one))
-        result.append(InlineQueryResultArticle(
-            title=user["name"],
-            description=f"@{uname}",
-            url="https://twitter.com/" + uname,
-            thumb_url=user["profile_image_url"],
-            reply_markup=reply_markup,
-            input_message_content=InputTextMessageContent(
-                text, disable_web_page_preview=True)))
+        result.append(
+            InlineQueryResultArticle(
+                title=user["name"],
+                description=f"@{uname}",
+                url="https://twitter.com/" + uname,
+                thumb_url=user["profile_image_url"],
+                reply_markup=reply_markup,
+                input_message_content=InputTextMessageContent(
+                    text, disable_web_page_preview=True
+                ),
+            )
+        )
     return result[:50]
 
 
@@ -83,15 +90,18 @@ def status_reply_markup(status):
         rt_ = "rt"
         rt_btn = "Re-Tweet"
     Link = "https://twitter.com/" + user["screen_name"]
-    Link += "/status/" + str(status['id'])
-    COL_1 = [InlineKeyboardButton("View", url=Link),
-             InlineKeyboardButton("User", callback_data=f"user{user['id']}")]
+    Link += "/status/" + str(status["id"])
+    COL_1 = [
+        InlineKeyboardButton("View", url=Link),
+        InlineKeyboardButton("User", callback_data=f"user{user['id']}"),
+    ]
     OUT.append(COL_1)
-    OUT.append([InlineKeyboardButton(
-        favbutn,
-        callback_data=f"favr_{is_fav}_{status['id']}")])
-    OUT.append([InlineKeyboardButton(
-        rt_btn, callback_data=f"rtt_{rt_}_{status['id']}")])
+    OUT.append(
+        [InlineKeyboardButton(favbutn, callback_data=f"favr_{is_fav}_{status['id']}")]
+    )
+    OUT.append(
+        [InlineKeyboardButton(rt_btn, callback_data=f"rtt_{rt_}_{status['id']}")]
+    )
     return OUT
 
 
@@ -103,11 +113,12 @@ def user_reply_markup(user):
     if user["following"]:
         fl = "fl"
         fl_but = "UnFollow"
-    Link = "https://twitter.com/" + user['screen_name']
-    OUT.append([InlineKeyboardButton("View", url=Link),
-                InlineKeyboardButton(
-                    fl_but,
-                    callback_data=f"fuflow_{fl}_{user['id']}")])
-    OUT.append([InlineKeyboardButton(
-        text="Help Menu", callback_data="openmenu")])
+    Link = "https://twitter.com/" + user["screen_name"]
+    OUT.append(
+        [
+            InlineKeyboardButton("View", url=Link),
+            InlineKeyboardButton(fl_but, callback_data=f"fuflow_{fl}_{user['id']}"),
+        ]
+    )
+    OUT.append([InlineKeyboardButton(text="Help Menu", callback_data="openmenu")])
     return OUT

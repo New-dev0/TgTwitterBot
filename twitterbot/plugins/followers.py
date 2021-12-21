@@ -11,12 +11,10 @@ from twitterbot.funcs import user_eazy
 
 @Client.on_inline_query(filters.regex("^followers$") & filters.user(AUTH))
 async def getfollowers(client, query):
-    flowers = api.followers()
+    flowers = api.get_followers()
     results = user_eazy(flowers)
     num = len(results)
     tet = f"Showing {num} Results !"
     if num == 0:
         tet = "Sad, You Dont have Any Follower."
-    await query.answer(results,
-                       switch_pm_text=tet,
-                       switch_pm_parameter="start")
+    await query.answer(results,is_personal=True, switch_pm_text=tet, switch_pm_parameter="start")

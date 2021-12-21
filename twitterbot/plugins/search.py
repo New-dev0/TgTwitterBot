@@ -12,24 +12,34 @@ from twitterbot.funcs import user_eazy, tweeteazy
 @Client.on_inline_query(filters.regex("^search") & filters.user(AUTH))
 async def searchthing(client, query):
     try:
-        match = query.query.split(" ", maxsplit=1)[1]
+        match = query.query.split(maxsplit=1)[1]
     except IndexError:
-        return await query.answer([], switch_pm_text="Enter Query to Search", switch_pm_parameter="start")
-    outex = api.search(match)
+        return await query.answer(
+            [], switch_pm_text="Enter Query to Search", switch_pm_parameter="start"
+        )
+    outex = api.search_tweets(q=match)
     results = tweeteazy(outex)
-    await query.answer(results,
-                       switch_pm_text=f"Showing {len(results)} Results",
-                       switch_pm_parameter="start")
+    await query.answer(
+        results,
+        is_personal=True,
+        switch_pm_text=f"Showing {len(results)} Results",
+        switch_pm_parameter="start",
+    )
 
 
 @Client.on_inline_query(filters.regex("^user") & filters.user(AUTH))
 async def searchuser(client, query):
     try:
-        match = query.query.split(" ", maxsplit=1)[1]
+        match = query.query.split(maxsplit=1)[1]
     except IndexError:
-        return await query.answer([], switch_pm_text="Enter Query to Search", switch_pm_parameter="start")
-    user = api.search_users(match)
+        return await query.answer(
+            [], switch_pm_text="Enter Query to Search", switch_pm_parameter="start"
+        )
+    user = api.search_users(q=match)
     results = user_eazy(user)
-    await query.answer(results,
-                       switch_pm_text=f"Showing {len(results)} Result !",
-                       switch_pm_parameter="start")
+    await query.answer(
+        results,
+        is_personal=True,
+        switch_pm_text=f"Showing {len(results)} Result !",
+        switch_pm_parameter="start",
+    )

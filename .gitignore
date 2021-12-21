@@ -1,0 +1,7 @@
+.env
+*.session
+
+__pycache__\
+downloads\
+
+twitterbot/plugins/test*

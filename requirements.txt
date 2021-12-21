@@ -1,4 +1,4 @@
-pyrogram
-python-decouple
-tgcrypto
-tweepy==3.10.0
+pyrogram<=1.2.20
+python-decouple<=3.3
+tgcrypto==1.2.2
+tweepy==4.3.0
