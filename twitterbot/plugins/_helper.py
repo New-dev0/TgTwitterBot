@@ -92,4 +92,4 @@ async def shelpmsg(client, message):
     reply_markup = InlineKeyboardMarkup(
         [[InlineKeyboardButton(text="INLINE HELP", callback_data="openmenu")]]
     )
-    await message.reply_text(HEMENU, is_personal=True, reply_markup=reply_markup, quote=True)
+    await message.reply_text(HEMENU, reply_markup=reply_markup, quote=True)
