@@ -17,9 +17,8 @@ All Details and ```Guide for Deployment``` can be Found at [New-dev0.github.io/t
 All Enviroment Variables can be found in [`env.sample`](https://github.com/New-dev0/TgTwitterBot/blob/main/env.sample) !
 
 
-## Deploy to Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
+## Deploy to Railway
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/oWd5QD)
 
 ## Deploying Locally
 Fill Your Env Variables in .env file !
