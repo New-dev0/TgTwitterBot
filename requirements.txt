@@ -1,4 +1,4 @@
 pyrogram<=1.2.20
 python-decouple<=3.3
 tgcrypto==1.2.2
-tweepy==4.3.0
+tweepy>=4.0.0,<=4.4.0
